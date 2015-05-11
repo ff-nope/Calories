@@ -23,10 +23,12 @@ public class DbCalorias {
 	}
 	
 	
+	
 
 	public Usuario fetch_user_by_name(String fname, String lname) {
 		Usuario usuario = new Usuario();
 		usuario = null;
+		
 
 		EntityManager em = emfFac.devolveEmf().createEntityManager();
 		List<Usuario> usuariosComEsseNome = fetch_list_by_name( fname,  lname,  em);
