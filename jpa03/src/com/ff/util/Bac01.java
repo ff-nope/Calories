@@ -1,4 +1,4 @@
-package com.ff.model;
+package com.ff.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -6,7 +6,10 @@ import java.util.Calendar;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+
 import com.ff.dao.emfFac;
+import com.ff.model.Item;
+import com.ff.model.Usuario;
 
 
 public class Bac01 {
@@ -60,15 +63,6 @@ public class Bac01 {
 		  System.out.println( "--->>>  \n \n");
 		  
 		  
-//		  TypedQuery<Item> queryD = em.createQuery("SELECT  department FROM Item department",Item.class);
-//		  
-//		  List<Item> myListD = queryD.getResultList();
-//		  for (Item b : myListD){
-//			  System.out.println(b + " ID: " + b.getId()  );
-//			  System.out.println("Name -> " + b.getName() );
-//			  System.out.println("Usuarios : " +b.getUsuarios() + "\n ");
-//		  }
-//		  
 		  em.close();
 		  emfFac.closer();  
 		

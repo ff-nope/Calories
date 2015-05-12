@@ -21,7 +21,7 @@ import org.codehaus.jettison.json.JSONObject;
 import com.ff.dao.emfFac;
 import com.ff.model.Item;
 import com.ff.model.Usuario;
-import com.ff.model.printUsuarioJSON;
+import com.ff.util.printUsuarioJSON;
 import com.sun.jersey.api.Responses;
 
 @Path("/v1/crud")

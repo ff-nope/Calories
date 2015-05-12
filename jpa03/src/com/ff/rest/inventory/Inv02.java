@@ -12,7 +12,7 @@ import org.codehaus.jettison.json.JSONArray;
 
 import com.ff.dao.emfFac;
 import com.ff.model.Usuario;
-import com.ff.model.printUsuarioJSON;
+import com.ff.util.printUsuarioJSON;
 
 @Path("/Inv02")
 public class Inv02 {
@@ -22,7 +22,6 @@ public class Inv02 {
     public String retornaInv() throws Throwable {
 		
 		EntityManager em = emfFac.devolveEmf().createEntityManager();
-		String myRetorno = "\n\n";
 		JSONArray jsonArray = new JSONArray();
 
 		
@@ -33,11 +32,8 @@ public class Inv02 {
 			  Usuario bPobre = b;
 			  bPobre.setItems(null);
 			  printUsuarioJSON p = new printUsuarioJSON();
-//			  myRetorno += p.retornaJason(bPobre);
-//			  myRetorno += "\n\n";
 			  jsonArray.put(p.retornaJason(bPobre)); 
 		  }
-//		  return myRetorno;
 		  return jsonArray.toString();
 		
 		

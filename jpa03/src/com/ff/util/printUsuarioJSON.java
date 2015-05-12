@@ -1,4 +1,4 @@
-package com.ff.model;
+package com.ff.util;
 
 
 
@@ -7,6 +7,8 @@ import java.io.IOException;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+
+import com.ff.model.Usuario;
 
 public class printUsuarioJSON {
 	ObjectMapper mapper = new ObjectMapper();

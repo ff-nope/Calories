@@ -1,4 +1,4 @@
-package com.ff.model;
+package com.ff.util;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,6 +9,9 @@ import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
 import com.ff.dao.emfFac;
+import com.ff.model.Item;
+import com.ff.model.Usuario;
+import com.ff.util.printUsuarioJSON;
 
 
 public class Bac02 {
@@ -75,32 +78,19 @@ public class Bac02 {
 		usuario.setItems(tempItem);								// gravei o item no usuario
 		
 		em.getTransaction().commit();
-		System.out.println(">>>>>>>>>>>>>>>>>>                       acabou de gravar.        <<<<<<<<<<<<<<<<<");
+		System.out.println(">>>>>>>>>>>>>>>>>>                       finished recording.        <<<<<<<<<<<<<<<<<");
 		
 		
 		
 		 List<Usuario> myList = em.createQuery( "from Usuario u", Usuario.class ).getResultList();
 		  
 		  for (Usuario b : myList){
-//			  System.out.println(b  );
 			  Usuario bPobre = b;
 			  bPobre.setItems(null);
 			  printUsuarioJSON p = new printUsuarioJSON();
 			  p.doIt(bPobre);
-//			  System.exit(0);
 		  }
 		  System.out.println( "--->>>  \n \n");
-		  
-		  
-//		  TypedQuery<Item> queryD = em.createQuery("SELECT  department FROM Item department",Item.class);
-//		  
-//		  List<Item> myListD = queryD.getResultList();
-//		  for (Item b : myListD){
-//			  System.out.println(b + " ID: " + b.getId()  );
-//			  System.out.println("Name -> " + b.getName() );
-//			  System.out.println("Usuarios : " +b.getUsuarios() + "\n ");
-//		  }
-//		  
 		  em.close();
 		  emfFac.closer();  
 		

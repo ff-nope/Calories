@@ -10,13 +10,12 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.codehaus.jettison.json.JSONArray;
 import org.codehaus.jettison.json.JSONObject;
 
 import com.ff.util.*;
 import com.ff.dao.DbCalorias;
 import com.ff.model.Usuario;
-import com.ff.model.printUsuarioJSON;
+import com.ff.util.printUsuarioJSON;
 
 @Path("/v2/crud")
 public class V2_crud {
