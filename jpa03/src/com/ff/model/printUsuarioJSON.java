@@ -19,7 +19,6 @@ public class printUsuarioJSON {
 		
 		try {
 			this.jsonString = mapper.writeValueAsString(meImprime);
-//			System.exit(0);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 			System.exit(0);
@@ -42,8 +41,6 @@ public class printUsuarioJSON {
 		
 		try {
 			this.jsonString = mapper.writeValueAsString(meImprime);
-//			this.jsonString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(meImprime);
-//			System.exit(0);
 		} catch (JsonGenerationException e) {
 			e.printStackTrace();
 			System.exit(0);
