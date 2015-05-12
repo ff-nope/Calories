@@ -36,7 +36,6 @@ public class DbCalorias {
 		if (!usuariosComEsseNome.isEmpty()) {
 			usuario = usuariosComEsseNome.get(0);
 		}
-
 		return usuario;
 	} // end fetch_user_by_name
 	
@@ -87,11 +86,9 @@ public class DbCalorias {
 																				// verify.
 		List<Usuario> usuariosComEsseNome = fetch_list_by_name( fname,  lname,  em);
 		if (!usuariosComEsseNome.isEmpty()) {
-			System.out.println("User exists, we are good so far."); // 
 			usuario = usuariosComEsseNome.get(0); 								 
 			http_code = 201; 
 		} else {
-			System.out.println("Oooops. User not found.");
 			http_code = 406;
 			return http_code;
 		}
@@ -124,7 +121,7 @@ public class DbCalorias {
 
 		List<Usuario> usuariosComEsseNome = fetch_list_by_name( fname,  lname,  em);
 		if (usuariosComEsseNome.isEmpty()) {									
-			System.out.println("user vazio, deu pau"); 							// bad vodoo. This user should have been found.
+			System.out.println("user not found, we're blown"); 							// bad vodoo. This user should have been found.
 			http_code = 500; //
 			return http_code;
 		} 
