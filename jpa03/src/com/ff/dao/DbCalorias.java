@@ -33,12 +33,7 @@ public class DbCalorias {
 		EntityManager em = emfFac.devolveEmf().createEntityManager();
 		List<Usuario> usuariosComEsseNome = fetch_list_by_name( fname,  lname,  em);
 
-		if (usuariosComEsseNome.isEmpty()) {
-			System.out.println("that name did not find an user"); // vou criar o
-																	// registro
-
-		} else {
-			System.out.println("user found");
+		if (!usuariosComEsseNome.isEmpty()) {
 			usuario = usuariosComEsseNome.get(0);
 		}
 
