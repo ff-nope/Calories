@@ -66,21 +66,19 @@ public class V1_crud {
 					.createQuery(
 							"SELECT u FROM Usuario u WHERE u.FName = ?1 and u.LName=?2",
 							Usuario.class);
-			// getSingleResult() blows when not found; getResultList() doesn't,
-			// so lets use it.
+																			// getSingleResult() blows when not found; getResultList() doesn't,
+																			// so lets use it.
 			List<Usuario> usuariosComEsseNome = usuarioExiste
 					.setParameter(1, bacFName).setParameter(2, bacLName)
 					.getResultList();
 
 			if (usuariosComEsseNome.isEmpty()) {
-				System.out.println("vazio"); // vou criar o registro
 				usuario.setFName(bacFName);
 				usuario.setLName(bacLName);
 				http_code = 206; //
 				MSG = "User created.";
 
 			} else {
-				System.out.println("tem gente");
 				usuario = usuariosComEsseNome.get(0);
 				http_code = 200;
 				MSG = "User exists.";
@@ -89,9 +87,9 @@ public class V1_crud {
 			jsonObject.put("HTTP_CODE", http_code);
 			jsonObject.put("MSG", MSG);
 
-			Usuario bPobre = usuario; // needs to get rid of the Items
-										// collection, to avoid recursive trap
-										// when Item maps back.
+			Usuario bPobre = usuario; 										// needs to get rid of the Items
+																			// collection, to avoid recursive trap
+																			// when Item maps back.
 			bPobre.setItems(null);
 			jsonArray.put(jsonObject);
 			jsonArray.put(p.retornaJason(bPobre));
@@ -106,7 +104,7 @@ public class V1_crud {
 		}
 
 		return Response.ok(returnString).build();
-	} // fim do metodo chk_user
+	} // end of chk_user
 
 	@Path("/rec_user")
 	@POST
@@ -138,20 +136,19 @@ public class V1_crud {
 
 			EntityManager em = emfFac.devolveEmf().createEntityManager();
 
-			// Last chance for DB integrity. If I am recording this user, then
-			// it should not exist in the database, so we verify.
+																				// Last chance for DB integrity. If I am recording this user, then
+																				// it should not exist in the database, so we verify.
 			TypedQuery<Usuario> usuarioExiste = em
 					.createQuery(
 							"SELECT u FROM Usuario u WHERE u.FName = ?1 and u.LName=?2",
 							Usuario.class);
-			// getSingleResult() blows when not found; getResultList() doesn't,
-			// so lets use it.
+																				// getSingleResult() blows when not found; getResultList() doesn't,
+																				// so lets use it.
 			List<Usuario> usuariosComEsseNome = usuarioExiste
 					.setParameter(1, bacFName).setParameter(2, bacLName)
 					.getResultList();
 
 			if (usuariosComEsseNome.isEmpty()) {
-				System.out.println("vazio"); // vou criar o registro
 				usuario.setFName(bacFName);
 				usuario.setLName(bacLName);
 				http_code = 201; //
@@ -159,7 +156,6 @@ public class V1_crud {
 
 			} else {
 				System.out.println("Oooops.");
-				// usuario = usuariosComEsseNome.get(0);
 				http_code = 406;
 				MSG = "User exists. It was not supposed to exist, so you are in trouble.";
 
@@ -167,7 +163,6 @@ public class V1_crud {
 				jsonObject.put("MSG", MSG);
 				jsonArray.put(jsonObject);
 				System.out.println(jsonArray.toString());
-				// return Response.notModified(jsonArray.toString()).build();
 				return Response.status(Responses.NOT_ACCEPTABLE)
 						.entity(jsonArray.toString()).build();
 			}
@@ -175,13 +170,13 @@ public class V1_crud {
 			jsonObject.put("HTTP_CODE", http_code);
 			jsonObject.put("MSG", MSG);
 
-			// Let's persist the user, shall we?
+																					// Let's persist the user, shall we?
 			usuario.setFName(bacFName);
 			usuario.setLName(bacLName);
 			usuario.setDob(calStart);
 
 			em.getTransaction().begin();
-			em.persist(usuario); // gravei usuario
+			em.persist(usuario); 
 			em.getTransaction().commit();
 			em.close();
 
@@ -196,17 +191,9 @@ public class V1_crud {
 					.entity("Server was not able to process your request.")
 					.build();
 		}
-
-		// return Response.ok(returnString).build();
-
 		return Response.status(http_code).entity(returnString).build();
-	} // fim do metodo rec_user
+	} // end of rec_user
 
-	
-	
-	
-	
-	
 	
 	
 	
@@ -216,8 +203,8 @@ public class V1_crud {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED,
 			MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response rec_item(String incomingData) throws Exception { // >>>>>
-																		// chk_user
+	public Response rec_item(String incomingData) throws Exception { 
+
 		String returnString = null;
 		String MSG = null;
 		JSONArray jsonArray = new JSONArray();
@@ -232,11 +219,11 @@ public class V1_crud {
 			JSONObject partsData = new JSONObject(incomingData);
 			System.out.println("partsData   : " + partsData.toString());
 
-			// Grab user data from JSON, to query the entity.
+																					// Grab user data from JSON, to query the entity.
 			String bacFName = partsData.optString("fname");
 			String bacLName = partsData.optString("lname");
 
-			// Item data, to prepare for persistence. Here we extract from JSON
+																					// Item data, to prepare for persistence. Here we extract from JSON
 			String bacItem = partsData.optString("memitem");
 			int bacCalorias = partsData.optInt("calorias");
 			long bacQuando = partsData.optLong("quando");
@@ -245,36 +232,30 @@ public class V1_crud {
 			System.out.println(">>>      aqui vai : " + bacItem + " " + bacCalorias+ "   " + bacQuando);
 			
 			
-			// record REST data item in entity
+																					// record REST data item in entity
 			item.setItem(bacItem);
 			item.setCalorias(bacCalorias);
 			item.setQuando(bacQuando);
 
 			EntityManager em = emfFac.devolveEmf().createEntityManager();
 
-			// Last chance for DB integrity. If I am recording this item, then
-			// the corresponding user should exist in the database, so we
-			// verify.
+																					// Last chance for DB integrity. If I am recording this item, then
+																					// the corresponding user should exist in the database, so we
+																					// verify.
 			TypedQuery<Usuario> usuarioExiste = em
 					.createQuery(
 							"SELECT u FROM Usuario u WHERE u.FName = ?1 and u.LName=?2",
 							Usuario.class);
-			// getSingleResult() blows when not found; getResultList() doesn't,
-			// so lets use it.
+																					// getSingleResult() blows when not found; getResultList() doesn't,
+																					// so lets use it.
 			List<Usuario> usuariosComEsseNome = usuarioExiste
 					.setParameter(1, bacFName).setParameter(2, bacLName)
 					.getResultList();
 
 			if (!usuariosComEsseNome.isEmpty()) {
-				System.out.println("User exists, we are good so far."); // vou
-																		// criar
-																		// o
-																		// registro
-				usuario = usuariosComEsseNome.get(0); // We fetch the usuario
-														// entity here, ready to
-														// be added a new item
-				// http_code = 201; //
-				// MSG = "User created.";
+				usuario = usuariosComEsseNome.get(0); 								// We fetch the usuario
+																					// entity here, ready to
+																					// be added a new item
 
 			} else {
 				System.out.println("Oooops.");
@@ -286,30 +267,28 @@ public class V1_crud {
 				jsonObject.put("MSG", MSG);
 				jsonArray.put(jsonObject);
 				System.out.println(jsonArray.toString());
-				// return Response.notModified(jsonArray.toString()).build();
 				return Response.status(Responses.NOT_ACCEPTABLE)
 						.entity(jsonArray.toString()).build();
 			}
 
-			// ready to record item. We do that, then establish ManyToOne
-			// association with usuario.
+																				// ready to record item. We do that, then establish ManyToOne
+																				// association with usuario.
 			em.getTransaction().begin();
-			em.persist(usuario); // usuario to DB
-			em.persist(item); // item to DB
+			em.persist(usuario); 												// usuario to DB
+			em.persist(item); 													// item to DB
 
-			item.setUsuario(usuario); // persisted usuario no item
+			item.setUsuario(usuario); 											// persisted usuario in item
 			tempItem = usuario.getItems();
 			if (tempItem == null) {
 				tempItem = new ArrayList<Item>();
 			}
 			tempItem.add(item);
-			usuario.setItems(tempItem); // persisted item no usuario
+			usuario.setItems(tempItem); 										// persisted item in usuario
 
 			em.getTransaction().commit();
 			em.close();
-			System.out.println("acabou de gravar.");
-
-			// item persistence went well. Time to return a cheerful message, code
+			
+																				// item persistence went well. Time to return a cheerful message, code
 			 http_code = 201; //
 			 MSG = "Item persisted.";
 
@@ -328,17 +307,8 @@ public class V1_crud {
 					.build();
 		}
 
-		// return Response.ok(returnString).build();
-
 		return Response.status(http_code).entity(returnString).build();
-	} // fim do metodo rec_item
-
-
-
-
-
-
-
+	} // end of rec_item
 
 
 
@@ -355,19 +325,13 @@ public class V1_crud {
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObject = new JSONObject();
 		Usuario usuario = new Usuario();
-		printUsuarioJSON p = new printUsuarioJSON();
 		int http_code = 0;
 
 		try {
-			System.out.println(">>>      incomingData : " + incomingData);
 			JSONObject partsData = new JSONObject(incomingData);
-			System.out.println("partsData   : " + partsData.toString());
-
 			String bacFName = partsData.optString("fname");
 			String bacLName = partsData.optString("lname");
-			System.out.println("\n\nfname : " + bacFName + "\nlname : "
-					+ bacLName + "\n\n");
-
+			
 			EntityManager em = emfFac.devolveEmf().createEntityManager();
 
 			TypedQuery<Usuario> usuarioExiste = em
@@ -381,25 +345,25 @@ public class V1_crud {
 					.getResultList();
 
 			if (usuariosComEsseNome.isEmpty()) {
-				System.out.println("vazio"); // bad vodoo. This user should have been found.
+																					// bad voodoo. This user should have been found.
 				http_code = 500; //
 				MSG = "User does not exist. I can't kill what is not there.";
 				jsonObject.put("HTTP_CODE", http_code);
 				jsonObject.put("MSG", MSG);
 				jsonArray.put(jsonObject);
 				System.out.println(jsonArray.toString());
-				// return Response.notModified(jsonArray.toString()).build();
+				
 				return Response.status(Responses.NOT_ACCEPTABLE)
 						.entity(jsonArray.toString()).build();
 
 			} else {
-				System.out.println("Found the user - ready to delete it");
+				
 				usuario = usuariosComEsseNome.get(0);
 			}
 			
 			
 			
-			// deletes user. Note that CascadeType is set to ALL, so the items will be deleted as well. 
+																					// deletes user. Note that CascadeType is set to ALL, so the items will be deleted as well. 
 			em.getTransaction().begin();
 			em.remove(usuario);
 			em.getTransaction().commit();
@@ -424,7 +388,7 @@ public class V1_crud {
 		}
 
 		return Response.ok(returnString).build();
-	} // fim do metodo del_user
+	} // end of del_user
 
 
 
@@ -435,52 +399,42 @@ public class V1_crud {
 	@Consumes({ MediaType.APPLICATION_FORM_URLENCODED,
 			MediaType.APPLICATION_JSON })
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response del_item(String incomingData) throws Exception { // >>>>>
-																		// 
+	public Response del_item(String incomingData) throws Exception { 
 		String returnString = null;
 		String MSG = null;
 		JSONArray jsonArray = new JSONArray();
 		JSONObject jsonObject = new JSONObject();
 		Usuario usuario = new Usuario();
-		printUsuarioJSON p = new printUsuarioJSON();
 		int http_code = 0;
 
 		try {
-			System.out.println(">>>      incomingData : " + incomingData);
 			JSONObject partsData = new JSONObject(incomingData);
-			System.out.println("partsData   : " + partsData.toString());
 
 			String bacFName = partsData.optString("fname");
 			String bacLName = partsData.optString("lname");
 			int bacidxToKill = partsData.optInt("idxToKill");
 			
-			
-			
-			System.out.println("\n\nfname : " + bacFName + "\nlname : "
-					+ bacLName + "\nidxToKill: " + bacidxToKill  + "\n\n"    );
-			
-
 			EntityManager em = emfFac.devolveEmf().createEntityManager();
 
 			TypedQuery<Usuario> usuarioExiste = em
 					.createQuery(
 							"SELECT u FROM Usuario u WHERE u.FName = ?1 and u.LName=?2",
 							Usuario.class);
-			// getSingleResult() blows when not found; getResultList() doesn't,
-			// so lets use it.
+																								// getSingleResult() blows when not found; getResultList() doesn't,
+																								// so lets use it.
 			List<Usuario> usuariosComEsseNome = usuarioExiste
 					.setParameter(1, bacFName).setParameter(2, bacLName)
 					.getResultList();
 
 			if (usuariosComEsseNome.isEmpty()) {
-				System.out.println("vazio"); // bad vodoo. This user should have been found.
+				System.out.println("vazio"); // bad voodoo. This user should have been found.
 				http_code = 406; //
 				MSG = "User does not exist. I can't kill an item if the user is not there.";
 				jsonObject.put("HTTP_CODE", http_code);
 				jsonObject.put("MSG", MSG);
 				jsonArray.put(jsonObject);
 				System.out.println(jsonArray.toString());
-				// return Response.notModified(jsonArray.toString()).build();
+				
 				return Response.status(Responses.NOT_ACCEPTABLE)
 						.entity(jsonArray.toString()).build();
 
@@ -490,7 +444,7 @@ public class V1_crud {
 			}
 			
 			
-			//Checks if bacidxToKill makes sense
+																								//Checks if bacidxToKill makes sense
 			if (usuario.getItems().size() < bacidxToKill || bacidxToKill < 0  ){
 				http_code = 406; //
 				MSG = "Nothing to remove! There is no item with that index.";
@@ -498,15 +452,14 @@ public class V1_crud {
 				jsonObject.put("MSG", MSG);
 				jsonArray.put(jsonObject);
 				System.out.println(jsonArray.toString());
-				// return Response.notModified(jsonArray.toString()).build();
 				return Response.status(Responses.NOT_ACCEPTABLE)
 						.entity(jsonArray.toString()).build();
 
 			}
 			
 			
-			// deletes item. Note that CascadeType is set to ALL, and orphanremoval=true, so the item row will be deleted as well in the item table 
-			em.getTransaction().begin();
+																								// deletes item. Note that CascadeType is set to ALL, and orphanremoval=true,  
+			em.getTransaction().begin();														// so the item row will be deleted as well in the item table
 			usuario.getItems().remove(bacidxToKill);
 			em.getTransaction().commit();
 			em.close();
@@ -530,7 +483,7 @@ public class V1_crud {
 		}
 
 		return Response.ok(returnString).build();
-	} // fim do metodo del_item
+	} // end of del_item
 
 
 
@@ -538,8 +491,4 @@ public class V1_crud {
 
 
 
-
-
-
-
-}
+} // end of  V1_crud
