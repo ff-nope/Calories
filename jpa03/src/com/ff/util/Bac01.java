@@ -24,7 +24,7 @@ public class Bac01 {
 		
 		List<Item> tempItem = new ArrayList<Item>();
 		
-		usuario.setFName("Mauricio");
+		usuario.setFName("Bobo");
 		usuario.setLName("Feijo");
 																//DOB
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
